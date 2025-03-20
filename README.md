@@ -17,4 +17,17 @@ The implementation introduces the `fs::read_to_string` function to load an HTML 
 
 Testing the server by visiting `http://127.0.0.1:7878` now displays the contents of `hello.html` in the browser, confirming that the server can handle basic HTTP responses. This milestone demonstrates how a web server processes requests and serves static files, forming the basis for more advanced request handling in later stages.  
 
-![Commit 2 screen capture](/assets/images/commit2.png)
+![Commit 2 screen capture](/assets/images/commit2.png)  
+
+
+## Commit 3 Reflection Notes  
+
+Milestone 3 enhances the web server by implementing basic request handling and error responses. Previously, the server always returned `hello.html` regardless of the request. This update introduces logic to check the requested URL and serve different files accordingly.  
+
+The implementation modifies the `handle_connection` function to extract the first line of the HTTP request. A conditional statement checks whether the request is for the root path (`GET / HTTP/1.1`). If so, the server returns `hello.html` with a `200 OK` status. Otherwise, it responds with `404.html` and the status `404 NOT FOUND`.  
+
+Additionally, file reading is now dynamic, as the server selects the appropriate file (`hello.html` or `404.html`) based on the request. This update allows the server to handle missing pages gracefully by serving a predefined error page instead of crashing or returning an invalid response.  
+
+Testing the server by accessing `http://127.0.0.1:7878` correctly loads `hello.html`, while requesting an unknown path (e.g., `http://127.0.0.1:7878/unknown`) returns `404.html`. This milestone establishes basic request handling and prepares the server for more advanced routing in future updates.  
+
+![Commit 3 screen capture](/assets/images/commit3.png)  
