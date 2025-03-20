@@ -47,3 +47,10 @@ To mitigate this, a multithreaded approach can be implemented, allowing the serv
 The `ThreadPool` implementation enables the server to handle multiple requests simultaneously rather than sequentially. It achieves this by maintaining a set number of worker threads that remain idle until tasks are assigned. When a request arrives, it is delegated to an available worker, preventing the main thread from being blocked.  
 
 This approach ensures that slow requests do not delay others, enhancing performance under high traffic. Each worker thread continuously retrieves tasks from the queue, processes them, and then awaits the next task. This design minimizes the overhead of repeatedly creating and destroying threads while keeping the server efficient and responsive.  
+
+
+## Bonus Commit Reflection Notes  
+
+The `build` function enhances thread pool creation by explicitly returning a `Result`, providing a structured and reliable way to handle errors. Instead of causing a panic when an invalid size (such as zero) is provided, it returns a `PoolCreationError`, allowing the caller to manage the failure gracefully.  
+
+This improves code robustness and predictability, adhering to Rust’s best practices for error handling. By using `Result<ThreadPool, PoolCreationError>` instead of `Option<ThreadPool>` or an immediate `panic!`, the implementation ensures that errors are handled properly, leading to safer and more stable execution. Additionally, this design makes future error-handling extensions more seamless without affecting existing functionality.  
