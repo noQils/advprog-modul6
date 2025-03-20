@@ -40,3 +40,10 @@ The modified `handle_connection` function introduces a delay for requests to `/s
 This occurs because the server processes requests sequentially using a single thread. While handling the `/sleep` request, the server becomes blocked, preventing it from responding to other incoming requests until the delay completes. This highlights a fundamental drawback of single-threaded servers: a slow request can stall all others, leading to poor performance in multi-user environments.  
 
 To mitigate this, a multithreaded approach can be implemented, allowing the server to handle multiple requests concurrently and preventing one slow operation from affecting others. This will be addressed in the next milestone.  
+
+
+## Commit 5 Reflection Notes  
+
+The `ThreadPool` implementation enables the server to handle multiple requests simultaneously rather than sequentially. It achieves this by maintaining a set number of worker threads that remain idle until tasks are assigned. When a request arrives, it is delegated to an available worker, preventing the main thread from being blocked.  
+
+This approach ensures that slow requests do not delay others, enhancing performance under high traffic. Each worker thread continuously retrieves tasks from the queue, processes them, and then awaits the next task. This design minimizes the overhead of repeatedly creating and destroying threads while keeping the server efficient and responsive.  
