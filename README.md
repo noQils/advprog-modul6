@@ -31,3 +31,12 @@ Additionally, file reading is now dynamic, as the server selects the appropriate
 Testing the server by accessing `http://127.0.0.1:7878` correctly loads `hello.html`, while requesting an unknown path (e.g., `http://127.0.0.1:7878/unknown`) returns `404.html`. This milestone establishes basic request handling and prepares the server for more advanced routing in future updates.  
 
 ![Commit 3 screen capture](/assets/images/commit3.png)  
+
+
+## Commit 4 Reflection Notes  
+
+The modified `handle_connection` function introduces a delay for requests to `/sleep` by calling `thread::sleep(Duration::from_secs(10))`. When accessing `127.0.0.1:7878/sleep` in one browser tab and `127.0.0.1:7878` in another, both requests experienced delays. However, when testing `127.0.0.1:7878` alone, the page loaded quickly, confirming that the issue was not due to device lag.  
+
+This occurs because the server processes requests sequentially using a single thread. While handling the `/sleep` request, the server becomes blocked, preventing it from responding to other incoming requests until the delay completes. This highlights a fundamental drawback of single-threaded servers: a slow request can stall all others, leading to poor performance in multi-user environments.  
+
+To mitigate this, a multithreaded approach can be implemented, allowing the server to handle multiple requests concurrently and preventing one slow operation from affecting others. This will be addressed in the next milestone.  
